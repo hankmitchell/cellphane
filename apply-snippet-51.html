@@ -1,0 +1,1005 @@
+<span class="mobilehide" id="search-apply-box"><div class="btn" id="apply-button" style="border-radius:0px;margin-top:-2px;margin-left:unset;"><a style="margin-top:-2px;" v-on:click="showModal(1)">APPLY</a></div><div class="modal fade in custom-modal" tabindex="-1" v-cloak="true" v-if="displayModal1"><div class="modal-dialog"><div><div class="modal-header custom-modal-header" v-cloak="true"><span class="pull-right white" style="cursor:pointer;" v-on:click="closeModal">✖</span></div>
+<div class="modal-body custom-modal-body" v-cloak="true">
+	<section v-cloak="true">
+		<div>
+			<br>
+		</div>
+		<div>
+			<br>
+		</div>
+
+		<h3>To Submit Materials for Consideration</h3><strong>Position:&nbsp;</strong> {{job_title}}
+		<br><strong>Organization:&nbsp;</strong> {{search_name}}
+		<div class="error" v-if="error">{{error}}</div>
+		<div style="padding-top:20px;">
+
+			<ul class="formCol">
+				<li>
+					<label>Email:</label>&nbsp;
+					<input v-model="applicant.email" v-validate="'required|email'" name="email" type="text">&nbsp;<span class="error" v-show="errors.has('email')">{{ errors.first(&#39;email&#39;) }}</span></li>
+			</ul>
+			<div class="clear">&nbsp;</div>
+			<div class="btn"><a v-on:click="checkUserEmail">Continue</a></div><a class="text-right" href="/A-Note-to-Candidates" style="display:block;margin-right:20px;margin-top:10px;" target="_new">A note to Candidates</a></div>
+	</section>
+</div>
+<div class="modal-footer custom-modal-footer" v-cloak="">
+	<div class="text-left text-muted footer-text">Please be aware that an email confirming submission will be sent to the email address you provide.</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade in custom-modal" tabindex="-1" v-cloak="true" v-if="displayModal2">
+	<div class="modal-dialog">
+		<div>
+			<div class="modal-header custom-modal-header" v-cloak="true"><a class="pull-right white" style="cursor:pointer;" v-on:click="closeModal">✖</a></div>
+			<div class="modal-body custom-modal-body" v-cloak="true">
+				<section v-cloak="true">
+					<div>
+						<br>
+					</div>
+					<div>
+						<div class="error" v-if="error">{{error}}</div>
+						<br v-else="">
+					</div>
+
+					<h3>To Submit Materials for Consideration</h3><strong>Position:&nbsp;</strong> {{job_title}}
+					<br><strong>Organization:&nbsp;</strong> {{search_name}}
+					<div style="padding-top:20px;">
+						<div>Welcome back. Our records indicate that we have your email address on file. If you are {{applicant.email}}, please enter your password.</div>
+
+						<ul class="formCol">
+							<li>
+								<label>Password:</label>&nbsp;
+								<input v-model="applicant.password" name="password" v-validate="'required'" type="password">
+							</li>
+						</ul>
+						<div class="clear">&nbsp;</div>
+						<div class="btn"><a v-on:click="checkUserPassword">Continue</a></div><a v-on:click="showModal(7)">Forgot Password</a> <a style="display:block;margin-right:20px;margin-top:10px;" target="_new" v-on:click="startOver()">Not you? Click here to start over.</a> <a class="text-right" href="/A-Note-to-Candidates" style="display:block;margin-right:20px;margin-top:10px;" target="_new">A note to Candidates</a></div>
+				</section>
+			</div>
+			<div class="modal-footer custom-modal-footer" v-cloak="">
+				<div class="text-left text-muted footer-text">Please be aware that an email confirming submission will be sent to the email address you provide.</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade in custom-modal" tabindex="-1" v-cloak="true" v-if="displayModal3">
+	<div class="modal-dialog modal-lg">
+		<div>
+			<div class="modal-header custom-modal-header" v-cloak="true"><a class="pull-right white" style="cursor:pointer;" v-on:click="closeModal">✖</a></div>
+			<div class="modal-body custom-modal-body" v-cloak="true">
+				<section v-cloak="true">
+					<div>
+						<br>
+					</div>
+					<div>
+						<div class="error" v-if="error">{{error}}</div>
+						<br v-else="">
+					</div>
+
+					<h3>To Submit Materials for Consideration</h3>
+					<div>We do not have a profile for {{applicant.email}} in our system, and need the following information to track your application. Please enter your information to continue.</div>
+					<div class="clear">&nbsp;</div>
+					<div style="padding-top:20px;"><strong>Contact/Personal Information:</strong>
+						<div class="clear">&nbsp;</div>
+						<div>
+							<!-- <ul class="formCol"> -->
+							<div class="clearfix">
+
+								<ul class="formCol">
+									<li class="form-cell-3">
+										<label>Prefix:</label>
+										<select class="ddlPrefix" name="prefix" style="width:65px; margin-right:5px;" v-model="applicant.prefix">
+											<option value="Dr">Dr</option>
+											<option value="Mr">Mr</option>
+											<option value="Ms">Ms</option>
+											<option value="Mrs">Mrs</option>
+											<option value="Other">Other</option>
+										</select>
+									</li>
+									<li class="form-cell-3">
+										<label>First Name: *</label>&nbsp;
+										<input name="first_name" v-model="applicant.first_name" v-validate="'required'" type="text" maxlength="25" style="width:95%;">&nbsp;<span class="error" v-show="errors.has('first_name')">Required field</span></li>
+									<li class="form-cell-3">
+										<label>Last Name: *</label>&nbsp;
+										<input name="last_name" v-model="applicant.last_name" v-validate="'required'" type="text" maxlength="20" style="width:95%;"><span class="error" v-show="errors.has('last_name')">Required field</span></li>
+								</ul>
+							</div>
+							<div class="clearfix">
+
+								<ul class="formCol">
+									<li class="form-cell-3">
+										<label>Nickname:</label>&nbsp;
+										<input name="preferred_name" v-model="applicant.preferred_name" type="text" maxlength="40" style="width:95%;">
+									</li>
+									<li class="form-cell-3">
+										<label>Home Street:</label>&nbsp;
+										<input name="street" v-model="applicant.street" type="text" maxlength="40" style="width:95%;">
+									</li>
+									<li class="form-cell-3">
+										<label>Home City:</label>&nbsp;
+										<input name="city" v-model="applicant.city" type="text" maxlength="40" style="width:95%;">
+									</li>
+								</ul>
+							</div>
+							<div class="clearfix">
+
+								<ul class="formCol">
+									<li class="form-cell-4">
+										<label>Home State:</label>
+										<select name="state" style="width:75px;" v-model="applicant.state">
+											<option value="AK">AK</option>
+											<option value="AL">AL</option>
+											<option value="AR">AR</option>
+											<option value="AS">AS</option>
+											<option value="AZ">AZ</option>
+											<option value="CA">CA</option>
+											<option value="CO">CO</option>
+											<option value="CT">CT</option>
+											<option value="DC">DC</option>
+											<option value="DE">DE</option>
+											<option value="FL">FL</option>
+											<option value="GA">GA</option>
+											<option value="GU">GU</option>
+											<option value="HI">HI</option>
+											<option value="IA">IA</option>
+											<option value="ID">ID</option>
+											<option value="IL">IL</option>
+											<option value="IN">IN</option>
+											<option value="KS">KS</option>
+											<option value="KY">KY</option>
+											<option value="LA">LA</option>
+											<option value="MA">MA</option>
+											<option value="MD">MD</option>
+											<option value="ME">ME</option>
+											<option value="MI">MI</option>
+											<option value="MN">MN</option>
+											<option value="MO">MO</option>
+											<option value="MP">MP</option>
+											<option value="MS">MS</option>
+											<option value="MT">MT</option>
+											<option value="NC">NC</option>
+											<option value="ND">ND</option>
+											<option value="NE">NE</option>
+											<option value="NH">NH</option>
+											<option value="NJ">NJ</option>
+											<option value="NM">NM</option>
+											<option value="NV">NV</option>
+											<option value="NY">NY</option>
+											<option value="OH">OH</option>
+											<option value="OK">OK</option>
+											<option value="OR">OR</option>
+											<option value="PA">PA</option>
+											<option value="PR">PR</option>
+											<option value="RI">RI</option>
+											<option value="SC">SC</option>
+											<option value="SD">SD</option>
+											<option value="TN">TN</option>
+											<option value="TX">TX</option>
+											<option value="UT">UT</option>
+											<option value="VA">VA</option>
+											<option value="VI">VI</option>
+											<option value="VT">VT</option>
+											<option value="WA">WA</option>
+											<option value="WI">WI</option>
+											<option value="WV">WV</option>
+											<option value="WY">WY</option>
+											<option value="Other">O</option>
+										</select>
+									</li>
+									<li class="form-cell-4">
+										<label>Home Zip:</label>&nbsp;
+										<input name="zip" v-model="applicant.zip" type="text" maxlength="10" style="width:95%;">
+									</li>
+									<li class="form-cell-4">
+										<label>Phone:</label>&nbsp;
+										<input name="phone" v-model="applicant.phone" type="text" maxlength="20" style="width:95%;">
+									</li>
+									<li class="form-cell-4">
+										<label>Phone Type:</label>
+										<select name="phone_type" style="width:95%;" v-model="applicant.phone_type">
+											<option value="home">Home</option>
+											<option value="work">Work</option>
+											<option value="cell">Cell</option>
+										</select>
+									</li>
+								</ul>
+							</div>
+							<div class="clearfix">
+
+								<ul class="formCol">
+									<li class="form-cell-3">
+										<label>Country:</label>&nbsp;
+										<input name="country" v-model="applicant.country" type="text" maxlength="40" style="width:95%;">
+									</li>
+									<li class="form-cell-3">
+										<label>Email: *</label>&nbsp;
+										<input name="email" v-model="applicant.email" v-validate="'required'" type="text" maxlength="40" style="width:95%;"><span class="error" v-show="errors.has('email')">Valid email required</span></li>
+									<li class="form-cell-3">
+										<label>Confirm Email: *</label>&nbsp;
+										<input name="confirm_email" v-validate="'required|confirmed:email'" v-model="applicant.confirm_email" type="text" maxlength="40" style="width:95%;"><span class="error" v-show="errors.has('confirm_email')">Email does not match</span></li>
+								</ul>
+							</div>
+							<div class="clearfix">
+
+								<ul class="formCol">
+									<li class="form-cell-2">
+										<label>Choose Password (6 character minimum): *</label>&nbsp;
+										<input name="password" v-model="applicant.password" v-validate="'required'" style="width:95%;" type="password"><span class="error" v-show="errors.has('password')">Required field</span></li>
+									<li class="form-cell-2">
+										<label>Confirm Password: *</label>&nbsp;
+										<input name="confirm_password" v-model="applicant.confirm_password" v-validate="'required|confirmed:password'" type="password" style="width:95%;"><span class="error" v-show="errors.has('confirm_password')">Password does not match</span></li>
+								</ul>
+							</div>
+						</div>
+						<!-- </ul> -->
+
+						<p class="clear" style="padding-top:15px;"><strong>Employment Information:</strong></p>
+						<div class="clearfix">
+
+							<ul class="formCol">
+								<li class="form-cell-2">
+									<label>Organization: *</label>&nbsp;
+									<input name="organization" v-model="applicant.organization" v-validate="'required'" type="text" maxlength="80" style="width:95%"><span class="error" v-show="errors.has('organization')">Required field</span></li>
+								<li class="form-cell-2">
+									<label>Title: *</label>&nbsp;
+									<input name="title" v-model="applicant.title" v-validate="'required'" type="text" maxlength="80" style="width:95%"><span class="error" v-show="errors.has('title')">Required field</span></li>
+							</ul>
+						</div>
+						<div class="clearfix">
+
+							<ul class="formCol">
+								<li class="form-cell-3">
+									<label>Employer City: *</label>&nbsp;
+									<input name="employer_city" v-model="applicant.employer_city" v-validate="'required'" type="text" maxlength="40" style="width:95%"><span class="error" v-show="errors.has('employer_city')">Required field</span></li>
+								<li class="form-cell-3">
+									<label>Employer State:</label>
+									<select name="employer_state" style="width:75px;" v-model="applicant.employer_state">
+										<option value="AK">AK</option>
+										<option value="AL">AL</option>
+										<option value="AR">AR</option>
+										<option value="AS">AS</option>
+										<option value="AZ">AZ</option>
+										<option value="CA">CA</option>
+										<option value="CO">CO</option>
+										<option value="CT">CT</option>
+										<option value="DC">DC</option>
+										<option value="DE">DE</option>
+										<option value="FL">FL</option>
+										<option value="GA">GA</option>
+										<option value="GU">GU</option>
+										<option value="HI">HI</option>
+										<option value="IA">IA</option>
+										<option value="ID">ID</option>
+										<option value="IL">IL</option>
+										<option value="IN">IN</option>
+										<option value="KS">KS</option>
+										<option value="KY">KY</option>
+										<option value="LA">LA</option>
+										<option value="MA">MA</option>
+										<option value="MD">MD</option>
+										<option value="ME">ME</option>
+										<option value="MI">MI</option>
+										<option value="MN">MN</option>
+										<option value="MO">MO</option>
+										<option value="MP">MP</option>
+										<option value="MS">MS</option>
+										<option value="MT">MT</option>
+										<option value="NC">NC</option>
+										<option value="ND">ND</option>
+										<option value="NE">NE</option>
+										<option value="NH">NH</option>
+										<option value="NJ">NJ</option>
+										<option value="NM">NM</option>
+										<option value="NV">NV</option>
+										<option value="NY">NY</option>
+										<option value="OH">OH</option>
+										<option value="OK">OK</option>
+										<option value="OR">OR</option>
+										<option value="PA">PA</option>
+										<option value="PR">PR</option>
+										<option value="RI">RI</option>
+										<option value="SC">SC</option>
+										<option value="SD">SD</option>
+										<option value="TN">TN</option>
+										<option value="TX">TX</option>
+										<option value="UT">UT</option>
+										<option value="VA">VA</option>
+										<option value="VI">VI</option>
+										<option value="VT">VT</option>
+										<option value="WA">WA</option>
+										<option value="WI">WI</option>
+										<option value="WV">WV</option>
+										<option value="WY">WY</option>
+									</select>
+								</li>
+								<li class="form-cell-3">
+									<label>Employer Country:</label>&nbsp;
+									<input name="employer_country" v-model="applicant.employer_country" type="text" maxlength="40" style="width:95%">
+								</li>
+							</ul>
+						</div>
+						<div class="clear" style="height:15px;">
+							<br>
+						</div>
+					</div>
+					<div class="clear">&nbsp;</div>
+					<div class="btn"><a v-on:click="createUserAccount">Continue</a></div><a class="text-right" href="/A-Note-to-Candidates" style="display:block;margin-right:20px;margin-top:10px;" target="_new">A note to Candidates</a></section>
+			</div>
+			<div class="modal-footer custom-modal-footer" v-cloak="">
+				<div class="text-left text-muted footer-text">Please be aware that an email confirming submission will be sent to the email address you provide.</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade in custom-modal" tabindex="-1" v-cloak="true" v-if="displayModal4">
+	<div class="modal-dialog modal-lg">
+		<div>
+			<div class="modal-header custom-modal-header" v-cloak="true"><a class="pull-right white" style="cursor:pointer;" v-on:click="closeModal">✖</a></div>
+			<div class="modal-body custom-modal-body" v-cloak="true">
+				<section v-cloak="true">
+
+					<h3>To Submit Materials for Consideration</h3>
+					<div class="error" v-if="error">{{error}}</div>
+
+					<p><a v-on:click="logout">Click here to Logout</a></p><strong>Position:&nbsp;</strong> {{job_title}}
+					<br><strong>Organization:&nbsp;</strong> {{search_name}} &nbsp;&nbsp;
+					<div class="clearfix" style="padding-top:20px;">
+						<div class="leftDiv">
+
+							<p>Please include a brief message to the recruiter: {{recruiter}}</p>
+							<textarea name="message" rows="2" cols="20" placeholder="enter text" style="width:85%; height:150px;" v-model="message"></textarea>
+							<div class="clear" style="height:15px;">
+								<br>
+							</div>
+
+							<p>Upload resume/CV, cover letter, &amp; other documents (pdf or MS Word documents only, maximum size 1 MB, please).</p>
+							<div id="fupload1"><strong>Resume:*</strong>
+								<br>
+								<input type="file" name="resume" v-on:change="onResumeChange" style="width:85%;padding-top:4px;" v-validate="'required'">&nbsp;<span class="error" v-show="errors.has('resume')">Required field</span>
+								<br>
+							</div>
+							<br>
+							<div id="fupload2"><strong>Cover Letter:</strong>
+								<br>
+								<input type="file" name="cover_letter" v-on:change="onCoverLetterChange" style="width:85%;padding-top:4px;">
+								<br>
+							</div>
+							<br>
+							<div id="fupload3"><strong>Other Document:</strong>
+								<br>
+								<input name="other_file_type" type="text" id="other_file_type" placeholder="other - please indicate" v-model="other_file_type" style="width:85%;margin-bottom:3px;">
+								<br>
+								<input type="file" name="other_file" v-on:change="onOtherFileChange" style="width:85%;padding-top:4px;">
+								<br>
+							</div>
+							<br>
+							<div class="btn" style="margin-left:0px;"><a v-on:click="submitApplication">Submit</a></div>
+						</div>
+						<div class="rightDiv" v-if="edit_user_info">
+
+							<p><strong>Your Contact Info</strong></p>
+
+							<h3>Personal/Contact Information</h3>
+							<input type="text" class="form-item" id="prefix" placeholder="Prefix" v-model="user.prefix" name="prefix">&nbsp;
+							<input type="text" class="form-item" id="first_name" placeholder="First Name" v-model="user.first_name" name="first_name">&nbsp;
+							<input type="text" class="form-item" id="last_name" placeholder="Last Name" v-model="user.last_name" name="last_name">&nbsp;
+							<input type="text" class="form-item" id="preferred_name" placeholder="Preferred Name" v-model="user.preferred_name" name="preferred_name">&nbsp;
+							<input type="text" class="form-item" id="street" placeholder="Street" v-model="user.street" name="street">&nbsp;
+							<input type="text" class="form-item" id="city" placeholder="City" v-model="user.city" name="city">&nbsp;
+							<input type="text" class="form-item" id="state" placeholder="State" v-model="user.state" name="state">&nbsp;
+							<input type="text" class="form-item" id="zip" placeholder="zip" v-model="user.zip" name="zip">&nbsp;
+							<input type="text" class="form-item" id="country" placeholder="country" v-model="user.country" name="country">&nbsp;
+							<input type="text" class="form-item" id="phone" placeholder="Phone" v-model="user.phone" name="phone">&nbsp;
+							<select class="form-item" id="phone_type" name="phone_type" v-model="user.phone_type">
+								<option value="">phone type - select one</option>
+								<option value="home">phone type - Home</option>
+								<option value="work">phone type - Work</option>
+								<option value="cell">phone type - Cell</option>&nbsp; &nbsp;</select>&nbsp;
+							<input type="email" class="form-item" id="email" placeholder="Email" v-model="user.email" name="email">
+
+							<h3>Employment Information</h3>
+							<input type="text" class="form-item" id="title" placeholder="Title" v-model="user.title" name="title">&nbsp;
+							<input type="text" class="form-item" id="organization" placeholder="Organization" v-model="user.organization" name="organization">&nbsp;
+							<input type="text" class="form-item" id="employer_city" placeholder="Employer City" v-model="user.employer_city" name="employer_city">&nbsp;
+							<input type="text" class="form-item" id="employer_state" placeholder="Employer State" v-model="user.employer_state" name="employer_state">&nbsp;
+							<input type="text" class="form-item" id="employer_country" placeholder="Employer Country" v-model="user.employer_country" name="employer_country">
+
+							<p>
+								<button class="btn" v-on:click="updateUserInfo">Update</button>&nbsp; <a v-on:click="edit_user_info = false">Cancel</a></p>
+						</div>
+						<div class="rightDiv" v-else="">
+
+							<p><strong>Your Contact Info</strong> [<a v-on:click="editInfoMode">Update</a>]</p>
+
+							<p><strong>Personal/Contact Information</strong>
+								<br>{{user.prefix}} {{user.first_name}} {{user.last_name}}
+								<br>{{user.preferred_name}}
+								<br>{{user.street}}
+								<br>{{user.city}} {{user.state}} {{user.zip}} {{user.country}}
+								<br>{{user.phone}} - {{user.phone_type}}
+								<br>{{user.email}}
+								<br>
+								<br><strong>Employment Information</strong>
+								<br>{{user.title}}
+								<br>{{user.organization}}
+								<br>{{user.employer_city}}
+								<br>{{user.employer_state}}
+								<br>{{user.employer_country}}</p>
+
+							<p>
+								<br>
+							</p>
+						</div>
+					</div>
+
+					<p class="text-right" style="display:block;margin-right:20px;margin-top:10px;"><a href="/A-Note-to-Candidates.aspx" target="_new">A note to Candidates</a></p>
+				</section>
+			</div>
+			<div class="modal-footer custom-modal-footer" v-cloak="">
+				<div class="text-left text-muted footer-text">Please be aware that an email confirming submission will be sent to the email address you provide.</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade in custom-modal" tabindex="-1" v-cloak="true" v-if="displayModal5">
+	<div class="modal-dialog">
+		<div>
+			<div class="modal-header custom-modal-header" v-cloak="true"><a class="pull-right  white" v-on:click="closeModal">✖</a></div>
+			<div class="modal-body custom-modal-body" v-cloak="true">
+				<section v-cloak="true">
+					<div>
+
+						<p>We have upgraded to a new system. Everyone is required to change their password as part of this upgrade.</p>
+
+						<p>A link to reset your password will be emailed to you. Please use this new password to continue logging in.</p>
+						<div class="error" v-if="error">{{error}}</div>
+						<div class="clear">&nbsp;</div>
+						<div class="btn"><a v-on:click="resetPasswordLink">Reset Password</a></div>
+					</div>
+				</section>
+			</div>
+			<div class="modal-footer custom-modal-footer" v-cloak="">
+				<div class="text-left text-muted footer-text">Please be aware that an email confirming submission will be sent to the email address you provide.</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade in custom-modal" tabindex="-1" v-cloak="true" v-if="displayModal6">
+	<div class="modal-dialog">
+		<div>
+			<div class="modal-header custom-modal-header" v-cloak="true"><a class="pull-right  white" v-on:click="closeModal">✖</a></div>
+			<div class="modal-body custom-modal-body" v-cloak="true">
+				<section v-cloak="true">
+					<div>
+
+						<p>Thank you for submitting your materials for consideration for the search for {{job_title}} at {{search_name}}. Please understand that a thorough search process that gives serious consideration of all candidates does take time. We will keep you apprised of the status of your application and will be in touch should there appear to be a strong match in experience and qualifications.</p>
+						<div class="error" v-if="error">{{error}}</div>
+					</div>
+				</section>
+			</div>
+			<div class="modal-footer custom-modal-footer" v-cloak="">
+				<div class="text-left text-muted footer-text">Please be aware that an email confirming submission will be sent to the email address you provide.</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade in custom-modal" tabindex="-1" v-cloak="true" v-if="displayModal7">
+	<div class="modal-dialog">
+		<div>
+			<div class="modal-header custom-modal-header" v-cloak="true"><a class="pull-right  white" v-on:click="closeModal">✖</a></div>
+			<div class="modal-body custom-modal-body" v-cloak="true">
+				<section v-cloak="true">
+					<div>
+
+						<h3>Apply</h3>
+
+						<p>Forgot your password? Enter your email address below and a link to reset your password will be emailed to you.</p>
+						<div class="error" v-if="error">{{error}}</div>
+						<div style="padding-top:20px;">
+
+							<ul class="formCol">
+								<li>
+									<label>Email Address:</label>&nbsp;
+									<input v-model="applicant.email" v-validate="'required|email'" name="email" type="text">&nbsp;<span class="error" v-show="errors.has('email')">{{ errors.first(&#39;email&#39;) }}</span></li>
+							</ul>
+							<div class="clear">&nbsp;</div>
+							<div class="btn"><a v-on:click="resetPasswordLink">Reset Password</a></div>
+						</div>
+					</div>
+				</section>
+			</div>
+			<div class="modal-footer custom-modal-footer" v-cloak="">
+				<br>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade in custom-modal" tabindex="-1" v-cloak="true" v-if="displayModal8">
+	<div class="modal-dialog">
+		<div>
+			<div class="modal-header custom-modal-header" v-cloak="true"><a class="pull-right  white" v-on:click="closeModal">✖</a></div>
+			<div class="modal-body custom-modal-body" v-cloak="true">
+				<section v-cloak="true">
+					<div>
+
+						<p>Please check your email account for your password reset link.</p>
+						<div class="error" v-if="error">{{error}}</div>
+					</div>
+				</section>
+			</div>
+			<div class="modal-footer custom-modal-footer" v-cloak="">
+				<div class="text-left text-muted footer-text">Please be aware that an email confirming submission will be sent to the email address you provide.</div>
+			</div>
+		</div>
+	</div>
+</div>
+</span>
+<script type="text/javascript">
+	$(document).ready(function()
+	{
+		Vue.use(VeeValidate);
+
+		var app = new Vue(
+		{
+			el: '#search-apply-box',
+			data:
+			{
+				displayModal1: false,
+				displayModal2: false,
+				displayModal3: false,
+				displayModal4: false,
+				displayModal5: false,
+				displayModal6: false,
+				displayModal7: false,
+				displayModal8: false,
+
+
+				error: '',
+
+				// user info
+				user: null,
+				edit_user: false,
+
+				// organization: '',
+				recruiter: '', // TODO this should come from the service....
+
+				edit_user_info: false,
+
+				message: '',
+				resume: '',
+				cover_letter: '',
+				other_file_type: '',
+				other_file: '',
+
+				applicant:
+				{
+					email: '',
+					password: '',
+					first_name: '',
+					last_name: '',
+					nickname: '',
+					home_street: '',
+					home_city: '',
+					home_zip: '',
+					phone: '',
+					country: '',
+					confirm_email: '',
+					confirm_password: '',
+					organization: '',
+					title: '',
+					employer_city: '',
+					employer_state: '',
+					employer_country: ''
+				}
+			},
+			computed:
+			{
+				search_number: function()
+					{
+						return window.location.pathname.split("/")[2]
+					}
+					// ,
+					// search_name: function()
+					// {
+					// return this.search_number //  load search name and organization for the search number
+					// }
+			},
+			mounted: function()
+			{
+				// this.$http.get('/')
+			},
+			methods:
+			{
+				emptyApplicant: function()
+				{
+					return {
+						email: '',
+						password: '',
+						first_name: '',
+						last_name: '',
+						nickname: '',
+						home_street: '',
+						home_city: '',
+						home_zip: '',
+						phone: '',
+						country: '',
+						confirm_email: '',
+						confirm_password: '',
+						organization: '',
+						title: '',
+						employer_city: '',
+						employer_state: '',
+						employer_country: '',
+						prefix: '',
+					}
+				},
+				hideModals: function()
+				{
+					this.displayModal1 = false
+					this.displayModal2 = false
+					this.displayModal3 = false
+					this.displayModal4 = false
+					this.displayModal5 = false
+					this.displayModal6 = false
+					this.displayModal7 = false
+					this.displayModal8 = false
+					this.error = ''
+				},
+				resetState: function()
+				{
+					this.applicant = this.emptyApplicant()
+					this.user = null
+					this.edit_user = false
+					this.recruiter = ''
+					this.edit_user_info = false
+					this.message = ''
+					this.resume = ''
+					this.cover_letter = ''
+					this.other_file_type = ''
+					this.other_file = ''
+				},
+				closeModal: function()
+				{
+					this.hideModals()
+					this.resetState()
+				},
+				showModal: function(n)
+				{
+					this.hideModals()
+					this.$set(this, 'displayModal' + n, true)
+				},
+				resetPassword: function()
+				{
+					console.log("resetting password")
+					var _this = this;
+
+					console.log(this.$validator);
+					this.$validator.validateAll();
+					if (this.$validator.errorBag && this.$validator.errorBag.any())
+					{
+						this.error = "Please fix all validation errors.";
+					}
+					else
+					{
+
+						var data = {
+							email: this.applicant.email
+						}
+						this.$http.post('/api-password-reset', data).then(
+							function(response)
+							{
+								console.log("password was reset")
+								_this.showModal(2)
+							},
+							function(response)
+							{
+								_this.error = "Failed to reset your password. Please try again later."
+							}
+						)
+					}
+				},
+				resetPasswordLink: function()
+				{
+					console.log("resetting password link")
+					var _this = this;
+
+					console.log(this.$validator);
+					this.$validator.validateAll();
+					if (this.$validator.errorBag && this.$validator.errorBag.any())
+					{
+						this.error = "Please fix all validation errors.";
+					}
+					else
+					{
+
+						var data = {
+							email: this.applicant.email
+						}
+						this.$http.post('/api-account-reset-link', data).then(
+							function(response)
+							{
+								console.log("password reset link was sent")
+								_this.showModal(8)
+							},
+							function(response)
+							{
+								_this.error = "Failed to send your reset password link. Please try again later."
+							}
+						)
+					}
+				},
+				checkUserEmail: function()
+				{
+					console.log("checking user email...")
+					if (this.$validator.errorBag && this.$validator.errorBag.any())
+					{
+						this.error = "Please provide a valid email address."
+					}
+					else
+					{
+						var _this = this;
+						var data = {
+							email: this.applicant.email
+						}
+						console.log("will submit data:")
+						console.log(data)
+						this.$http.post('/api-account-exists', data).then(
+							function(response)
+							{
+								console.log("user does exist!!!!")
+								console.log(response.data)
+									// check if the user needs to reset their password
+								var user_info = response.data.data;
+								console.log('data is:')
+								console.log(data)
+								var status = user_info.status;
+								console.log("status is:")
+								console.log(status)
+
+								// _this.user = response.data;
+								if (status == "password_reset_required")
+								{
+									console.log("tell the user about the password reset!")
+									_this.showModal(5)
+								}
+								else if (status == "ok")
+								{
+									console.log("prompt the user for their password");
+									_this.showModal(2);
+								}
+								else
+								{
+									console.log("unknown user status!!!!")
+									_this.error = "Error finding your account."
+								}
+							},
+							function(response)
+							{
+								console.log("no, no such user")
+								console.log(response)
+								_this.error = "Unable to find your user account."
+								_this.showModal(3);
+							}
+						)
+					}
+				},
+				checkUserPassword: function()
+				{
+					var _this = this;
+
+					console.log(this.$validator);
+					this.$validator.validateAll();
+					if (this.$validator.errorBag && this.$validator.errorBag.any())
+					{
+						this.error = "Please fix all validation errors.";
+					}
+					else
+					{
+
+						var data = {
+							email: this.applicant.email,
+							password: this.applicant.password
+						}
+						this.$http.post('/api-account-info', data).then(
+							function(response)
+							{
+								_this.user = response.data.data;
+								_this.showModal(4);
+							},
+							function(response)
+							{
+								_this.error = "Unable to find your user account."
+								_this.showModal(5);
+							}
+						)
+
+					}
+				},
+				createUserAccount: function()
+				{
+					var _this = this;
+
+					console.log(this.$validator);
+					this.$validator.validateAll();
+					if (this.$validator.errorBag && this.$validator.errorBag.any())
+					{
+						this.error = "Please fix all validation errors.";
+					}
+					else
+					{
+
+						var data = this.applicant;
+
+						console.log('time to create a user account')
+						console.log(data);
+						this.$http.post('/api-account-create', data).then(
+							function(response)
+							{
+								console.log("created account:")
+								console.log(response.data)
+								_this.user = response.data.data;
+								_this.showModal(4);
+							},
+							function(response)
+							{
+								console.log('failed to create a user')
+								console.log(response)
+								_this.error = "Unable to create your user account."
+							}
+						)
+					}
+				},
+				submitApplication: function()
+				{
+					var _this = this
+
+					console.log(this.$validator);
+					this.$validator.validateAll();
+					if (this.$validator.errorBag && this.$validator.errorBag.any())
+					{
+						this.error = "Please fix all validation errors.";
+					}
+					else
+					{
+
+						var formData = new FormData();
+
+						for (var key in this.user)
+						{
+							formData.append(key, this.user[key])
+						}
+
+						if (this.resume)
+						{
+							formData.append("resume_url", this.resume);
+						}
+						if (this.cover_letter)
+						{
+							formData.append("cover_letter_url", this.cover_letter);
+						}
+						if (this.other_file_type)
+						{
+							formData.append("other_document_description", this.other_file_type);
+						}
+						if (this.other_file)
+						{
+							formData.append("other_document_url", this.other_file);
+						}
+
+						formData.append("nickname", this.user.preferred_name)
+						formData.append("message", this.message)
+						formData.append("search_number", this.search_number)
+							// home info
+						formData.append("home_street", this.user.street)
+						formData.append("home_city", this.user.city)
+						formData.append("home_state", this.user.state)
+						formData.append("home_zip", this.user.zip)
+						formData.append("home_country", this.user.country)
+							// work info
+						formData.append("org_city", this.user.employer_city)
+						formData.append("org_state", this.user.employer_state)
+						formData.append("org_country", this.user.employer_country)
+						formData.append("org_title", this.user.title)
+						formData.append("org_name", this.user.organization)
+							// user info
+						formData.append("email", this.applicant.email)
+						formData.append("password", this.applicant.password)
+
+						console.log("form data for applicant:");
+						console.log(formData)
+
+						this.$http.post('/api-submit-application', formData).then(
+							function(response)
+							{
+								_this.showModal(6);
+							},
+							function(response)
+							{
+								_this.error = "Unable to submit your application. Please try again later."
+							}
+						)
+					}
+				},
+				onResumeChange: function(e)
+				{
+					var files = e.target.files[0] || e.dataTransfer.files;
+					this.resume = files;
+				},
+				onCoverLetterChange: function(e)
+				{
+					var files = e.target.files[0] || e.dataTransfer.files;
+					this.cover_letter = files;
+				},
+				onOtherFileChange: function(e)
+				{
+					var files = e.target.files[0] || e.dataTransfer.files;
+					this.other_file = files;
+				},
+				startOver: function()
+				{
+					this.applicant = this.emptyApplicant()
+					this.user = null
+					this.showModal(1)
+				},
+				logout: function()
+				{
+					this.resetState()
+					this.showModal(1)
+				},
+				editInfoMode: function()
+				{
+					this.edit_user_info = true
+				},
+				updateUserInfo: function()
+				{
+					console.log("saving updates to user...")
+
+					var _this = this;
+
+					console.log(this.$validator);
+					this.$validator.validateAll();
+					if (this.$validator.errorBag && this.$validator.errorBag.any())
+					{
+						this.error = "Please fix all validation errors.";
+					}
+					else
+					{
+
+						var data = this.user;
+						data.password = this.applicant.password;
+
+						console.log('time to update a user account')
+						console.log(data);
+						this.$http.post('/api-account-update', data).then(
+							function(response)
+							{
+								console.log("successfully saved your user info")
+								this.edit_user_info = false
+							},
+							function(response)
+							{
+								console.log('failed to create a user')
+								console.log(response)
+								_this.error = "Unable to create your user account."
+							}
+						)
+					}
+				},
+				modalStyle: function(flag)
+				{
+					console.log('modal style!')
+					console.log('flag')
+					if (flag)
+					{
+						console.log('show it')
+						return "display: block;"
+					}
+					console.log('do not show it')
+					return []
+				}
+			}
+		})
+	})
+
+</script><span>{{snippet:search-apply-form-css}}</span>
